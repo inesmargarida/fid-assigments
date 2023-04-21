@@ -1,7 +1,7 @@
 """cleaning"""
+import argparse
 import pathlib
 import pandas as pd
-import argparse
 
 
 PROJECT_DIR = pathlib.Path(__file__).parent
@@ -9,7 +9,7 @@ RAW_DATA_PATH = PROJECT_DIR.joinpath("data/eu_life_expectancy_raw.tsv")
 SAVE_PATH = PROJECT_DIR.joinpath("data/pt_life_expectancy.csv")
 
 
-def clean_data(region_filter = "PT"):
+def clean_data(region_filter="PT"):
     """clean data"""
     # Loads the eu_life_expectancy_raw.tsv data from the data folder.
     df_raw_data = pd.read_csv(RAW_DATA_PATH, sep="[,\t]", engine="python")
@@ -28,7 +28,9 @@ def clean_data(region_filter = "PT"):
     df_un_pivot_dates = df_un_pivot_dates.astype({"year": "int"})
 
     # Ensures value is a float (with the appropriate data cleaning if required, and do remove the NaNs).
-    df_un_pivot_dates['value'] = df_un_pivot_dates['value'].str.extract(r'(\d*\.?\d*)', expand=False)
+    df_un_pivot_dates["value"] = df_un_pivot_dates["value"].str.extract(
+        r"(\d*\.?\d*)", expand=False
+    )
     df_un_pivot_dates["value"] = df_un_pivot_dates["value"].apply(
         pd.to_numeric, errors="coerce"
     )
@@ -46,7 +48,7 @@ def clean_data(region_filter = "PT"):
 
 
 if __name__ == "__main__":  # pragma: no cover
-    
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--region", help="Insert region to filter data.")
     args = parser.parse_args()
