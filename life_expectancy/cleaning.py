@@ -9,7 +9,6 @@ import pandas as pd
 from . import RAW_DATA_PATH, SAVE_PATH
 
 
-# mafaldavs
 def load_data(file_path: str) -> pd.DataFrame:
     """Loads raw data from a given CSV file."""
     return pd.read_csv(file_path, sep="[,\t]", engine="python")
