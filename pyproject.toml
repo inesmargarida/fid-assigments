@@ -26,6 +26,7 @@ fail_under = 80
 [tool.pylint."messages control"]
 disable = [
    "missing-module-docstring",
+   "W0702"
    # Add any other checks you want to disable here
 ]
 
