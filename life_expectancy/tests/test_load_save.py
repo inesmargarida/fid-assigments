@@ -5,7 +5,7 @@ from life_expectancy import load_save
 def test_load_data_csv(monkeypatch) -> None:
     """Patch read_csv method, testing load_data function."""
 
-    def _mockreturn_load_csv() -> str:
+    def _mockreturn_load_csv(*args, **kwargs) -> str: # pylint: disable=unused-argument
         """Result to receive when mock."""
         return "DataFrame loaded from csv file."
 
@@ -17,7 +17,7 @@ def test_load_data_csv(monkeypatch) -> None:
 def test_save_data(monkeypatch) -> None:
     """Test the save_data function, Patch to_csv method"""
 
-    def _mockreturn_save_csv() -> str:
+    def _mockreturn_save_csv(*args, **kwargs) -> str: # pylint: disable=unused-argument
         """Result to receive when mock."""
         return "DataFrame saved to csv file."
 
