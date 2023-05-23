@@ -6,12 +6,8 @@ import typing
 
 import pandas as pd
 
+from life_expectancy.load_save import load_data, save_data
 from . import RAW_DATA_PATH, SAVE_PATH
-
-
-def load_data(file_path: str) -> pd.DataFrame:
-    """Loads raw data from a given CSV file."""
-    return pd.read_csv(file_path, sep="[,\t]", engine="python")
 
 
 def clean_data(df_unclean: pd.DataFrame, region_filter: str = "PT"):
@@ -23,23 +19,12 @@ def clean_data(df_unclean: pd.DataFrame, region_filter: str = "PT"):
     df_unclean = _unpivot_dates(df_unclean)
 
     # Ensures year is an int
-    df_cleaned_year = _clean_column(df_unclean, "year", int)
+    df_cleaned_year = _clean_column(df_unclean, "year", "int64")
     # Ensures value is a float
     df_cleaned = _clean_column(df_cleaned_year, "value", float)
 
     # Filters only the data where region equal to 'region_filter'.
     return df_cleaned[df_cleaned["region"] == region_filter]
-
-
-def save_data(df_data: pd.DataFrame, save_path: str):
-    """Save the given pd.DataFrame to the specified CSV file."""
-
-    # Ensure that no numerical index is saved.
-    try:
-        df_data.to_csv(save_path, index=False)
-        return True
-    except:
-        return False
 
 
 def _unpivot_dates(df_data: pd.DataFrame) -> pd.DataFrame:
@@ -94,6 +79,7 @@ def main(region_filter: str = "PT"):
 
     if saved:
         print("Data has been cleaned and saved!")
+    return df_clean.reset_index(drop=True)
 
 
 if __name__ == "__main__":  # pragma: no cover
